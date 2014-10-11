@@ -6,10 +6,11 @@ from NhlScrap.parsers.SummaryParser import parseSummary
 class NhlPBPSpider(scrapy.Spider):
     name = "NhlSummarySpider"
     allowed_domains = ["nhl.com"]
-    siteRange = range(20015, 20017);
+    siteRange = range(20000, 20017);
 
     def start_requests(self):
-        yield Request('http://www.nhl.com/scores/htmlreports/20142015/ES020015.HTM',
+        for i in self.siteRange:
+            yield Request('http://www.nhl.com/scores/htmlreports/20142015/ES0%d.HTM' % i,
                 callback = self.parse)
 
     def parse(self, response):
