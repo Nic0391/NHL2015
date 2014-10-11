@@ -12,6 +12,9 @@ BOT_NAME = 'NhlScrap'
 
 SPIDER_MODULES = ['NhlScrap.spiders']
 NEWSPIDER_MODULE = 'NhlScrap.spiders'
+ITEM_PIPELINES = {
+    'NhlScrap.pipelines.NhlScrapPipeline': 1
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'NhlScrap (+http://www.yourdomain.com)'

@@ -1,14 +1,25 @@
 import scrapy
+import sys
+from scrapy.http import Request
+from NhlScrap.items import NhlItem	
+from NhlScrap.parsers.PlayFieldsParser import parseFields
 
-class DmozSpider(scrapy.Spider):
-    name = "dmoz"
-    allowed_domains = ["dmoz.org"]
-    start_urls = [
-        "http://www.dmoz.org/Computers/Programming/Languages/Python/Books/",
-        "http://www.dmoz.org/Computers/Programming/Languages/Python/Resources/"
-    ]
+class NhlSpider(scrapy.Spider):
+    name = "Nhl"
+    allowed_domains = ["nhl.com"]
+    siteRange = range(20000, 20017);
+
+    def start_requests(self):
+        for i in self.siteRange:
+            yield Request('http://www.nhl.com/scores/htmlreports/20142015/PL0%d.HTM' % i,
+                    callback = self.parse)
 
     def parse(self, response):
-        filename = response.url.split("/")[-2]
-        with open(filename, 'wb') as f:
-            f.write(response.body)
+    	item = NhlItem()
+    	item['url'] = response.url
+    	item['plays'] = []
+    	for line in response.xpath('//tr[contains(@class, "evenColor")]'):
+    		fields = line.xpath('./td')
+    		playItem = parseFields(fields)
+    		item['plays'].append(dict(playItem))
+    	yield item
