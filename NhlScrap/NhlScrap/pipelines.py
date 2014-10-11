@@ -8,4 +8,5 @@ class NhlScrapPipeline(object):
     	content = json.dumps(dict(item))
         self.file.write(content)
         self.file.close()
+        
         return item

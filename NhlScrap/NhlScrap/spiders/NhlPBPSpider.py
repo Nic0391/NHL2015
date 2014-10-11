@@ -4,8 +4,8 @@ from scrapy.http import Request
 from NhlScrap.items import NhlItem	
 from NhlScrap.parsers.PlayFieldsParser import parseFields
 
-class NhlSpider(scrapy.Spider):
-    name = "Nhl"
+class NhlPBPSpider(scrapy.Spider):
+    name = "NhlPBPSpider"
     allowed_domains = ["nhl.com"]
     siteRange = range(20000, 20017);
 
